@@ -1,0 +1,14 @@
+{
+  "name": "express-cloudflared-server",
+  "version": "1.0.0",
+  "description": "Express server exposed via Cloudflare Tunnel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Izhan",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
