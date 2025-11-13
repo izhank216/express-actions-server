@@ -1,0 +1,37 @@
+name: Run Express Server via Cloudflare Tunnel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  express-server:
+    runs-on: debian-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install cloudflared
+        run: |
+          curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o cloudflared
+          chmod +x cloudflared
+          sudo mv cloudflared /usr/local/bin/
+
+      - name: Run Express server
+        run: |
+          # Start server in background
+          nohup node server.js &
+          sleep 3
+          
+          # Start Cloudflare tunnel
+          cloudflared tunnel --url http://localhost:3000
